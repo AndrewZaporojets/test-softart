@@ -81,3 +81,12 @@ h4, .h4 {
   }
 }
 
+h5, .h5 {
+  font-size: scaleSize($scale, 30);
+  margin: 0;
+
+  @include adaptive($mobile) {
+    font-size: scaleSize($mobileScale, 25);
+  }
+}
+

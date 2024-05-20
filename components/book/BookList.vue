@@ -16,26 +16,23 @@ const booksPagination = computed(() => {
 })
 </script>
 
-<template>
-	<div class="book-list">
-		<h4 class="book-list__title">
-			List of all available books
-		</h4>
-		<div class="book-list__items">
-			<book-card
+<template lang="pug">
+	div.book-list
+		h4.book-list__title
+			| List of all available books
+		div.book-list__items
+			book-card(
 				v-for="book in booksViewed"
 				:key="book.isbn"
 				:book="book"
 				class="book-list__item"
-			/>
-		</div>
-		<ui-pagination
+			)
+		ui-pagination.book-list__pagination(
 			v-if="booksPagination && booksPagination.pageCount > 1"
 			:current-page="booksPagination.currentPage"
 			:pages="booksPagination.pageCount"
 			@on-page-click="booksPagination.currentPage = $event"
-			class="book-list__pagination"
-		/></div>
+		)
 </template>
 
 <style scoped lang="scss">
@@ -56,10 +53,10 @@ const booksPagination = computed(() => {
 		width: calc(33.333% - scaleSize($scale, 20));
 
 		@include adaptive($pad-pro) {
-			width: calc(50% - scaleSize($scale, 30));
+			width: calc(50% - scaleSize($scale, 15));
 		}
 
-		@include adaptive($pad) {
+		@include adaptive($mobile) {
 			width: 100%;
 		}
 	}

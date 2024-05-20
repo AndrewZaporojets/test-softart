@@ -1,8 +1,4 @@
-<script setup lang="ts">
-</script>
-
-<template>
-	<div class="container">
-		<book-list />
-	</div>
+<template lang="pug">
+	.container
+		book-list
 </template>

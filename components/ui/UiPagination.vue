@@ -42,27 +42,18 @@ const pageNums = computed(() => {
 	return result
 })
 </script>
-<template>
-	<ul class="list ui-pagination">
-		<li v-for="(pageNum, i) in pageNums" :key="i" class="ui-pagination__item">
-			<button
+<template lang="pug">
+	ul.list.ui-pagination
+		li.ui-pagination__item(v-for="(pageNum, i) in pageNums" :key="i")
+			button.ui-pagination__btn(
 				v-if="Number.isInteger(pageNum)"
-
-				class="ui-pagination__btn"
-				:class="{'ui-pagination__btn--active' : pageNum === page}"
+				:class="{ 'ui-pagination__btn--active': pageNum === page }"
 				:disabled="isDisabled"
 				@click="clickBtnPage(pageNum)"
-			>
-				{{ pageNum }}
-			</button>
-			<button
-				v-else
-				class="ui-pagination__btn"
-			>
-				{{ pageNum }}
-			</button>
-		</li>
-	</ul>
+			)
+				| {{ pageNum }}
+			button.ui-pagination__btn(v-else)
+				| {{ pageNum }}
 </template>
 
 <style lang="scss">

@@ -16,26 +16,22 @@ const currentBook = computed<BooksItem>(() => {
 })
 </script>
 
-<template>
-	<div class="book-page container">
-		<div class="book-page__back" @click="router.back()">
-			Back to all Books
-		</div>
-		<h4 class="book-page__title">
-			{{ currentBook.title }}
-		</h4>
-		<img class="book-page__img" :src="`https://picsum.photos/seed/${currentBook.isbn}/480/640`" alt="Preview"/>
-		<div class="book-page__info">
-			<div class="book-page__info-author">{{ currentBook.author }}</div>
-			<div class="book-page__info-genre">{{ currentBook.genre }}</div>
-			<div class="book-page__info-date">
-				{{ formattedDate(currentBook.published, { day: '2-digit', month: '2-digit' }).replace('/', '.') }}
-			</div>
-		</div>
-		<div class="book-page__description">
-			{{ currentBook.description }}
-		</div>
-	</div>
+<template lang="pug">
+	div.book-page.container
+	div.book-page__back(@click="router.back()")
+		| Back to all Books
+	h4.book-page__title
+		| {{ currentBook.title }}
+	img.book-page__img(:src="`https://picsum.photos/seed/${currentBook.isbn}/480/640`" alt="Preview")
+	div.book-page__info
+		div.book-page__info-author
+			| {{ currentBook.author }}
+		div.book-page__info-genre
+			| {{ currentBook.genre }}
+		div.book-page__info-date
+			| {{ formattedDate(currentBook.published, { day: '2-digit', month: '2-digit' }).replace('/', '.') }}
+	div.book-page__description
+		| {{ currentBook.description }}
 </template>
 
 <style scoped lang="scss">
