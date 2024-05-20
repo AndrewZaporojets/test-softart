@@ -1,0 +1,26 @@
+$white: #fff;
+$black: #171717;
+
+$notebook-large: 1440;
+$notebook: 1366;
+$notebook-small: 1240;
+$pad-pro: 1024;
+$pad: 768;
+$mobile-large: 480;
+$mobile: 375;
+
+$breakpoints: (
+	small: 320px,
+	xsmall: 570px,
+	medium: 744px,
+	pad: 768px,
+	xmedium: 988px,
+	large: 1000px,
+	morelarge: 1144px,
+	xlarge: 1435px,
+	note: $notebook-large,
+	xxlarge: 1920px,
+);
+
+$scale: calc(100vw / 1440);
+$mobileScale: calc(100vw / 375);

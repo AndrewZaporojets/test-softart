@@ -1,0 +1,118 @@
+// _mixins.scss
+
+//Adaptive
+@mixin adaptive($media-width) {
+  @media screen and (max-width: #{$media-width}px) {
+    @content;
+  }
+}
+
+@mixin textRestrictions($line-clamp) {
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: $line-clamp;
+	-webkit-box-orient: vertical;
+}
+
+@function scaleSize($currentScale, $size, $coefficient: 0.8) {
+	@return max($currentScale * $size)
+	//@if $currentScale < calc(100vw / $pad) {
+	//	@return max(calc(#{$size}px * #{$coefficient}),  $currentScale * $size)
+	//} @else {
+	//	@return min(calc(#{$size}px / #{$coefficient}), $currentScale * $size)
+	//}
+}
+
+@function scaleSizeDesktop($size) {
+	@return scaleSize($scale, $size)
+}
+
+@function scaleSizeMobile($size) {
+	@return scaleSize($mobileScale, $size)
+}
+
+@mixin isIe() {
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    @content;
+  }
+}
+
+@mixin isGridLayout() {
+  @supports (grid-column-gap: 15px) and (grid-row-gap: 15px) and (display: grid) {
+    @content;
+  }
+}
+
+//placeholder
+
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    @content;
+  }
+  &:-moz-placeholder {
+    @content;
+  }
+  &::-moz-placeholder {
+    @content;
+  }
+  &:-ms-input-placeholder {
+    @content;
+  }
+}
+
+@mixin columnBreak() {
+  page-break-inside: avoid;
+  break-inside: avoid-column;
+}
+
+@function darken($color, $percent) {
+  @return adjust_color($color, $lightness: -$percent);
+}
+
+@function mix_alpha($color, $opacity) {
+  $opacity: 1 - $opacity;
+  @return adjust_color($color, $alpha: -$opacity);
+}
+
+@mixin text-style($weight, $size) {
+  font-weight: $weight;
+  font-size: scaleSize($scale, #{$size});
+  margin: 0;
+	@include breakpoint(pad down) {
+		font-size: scaleSize($mobileScale, #{$size});
+	}
+}
+
+@mixin make-circle($size) {
+	// important добавлен для исключения перебивки стилей на проде
+	width: $size !important;
+	height: $size !important;
+	border-radius: 50% !important;
+}
+
+@mixin absolute-center {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+@mixin in-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+@mixin textOverflow($linesAmount: 1) {
+	@if ($linesAmount > 1) {
+		display: -webkit-box;
+		line-clamp: $linesAmount;
+		-webkit-line-clamp: $linesAmount;
+		-webkit-box-orient: vertical;
+	} @else {
+		white-space: nowrap;
+	}
+
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
