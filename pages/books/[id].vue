@@ -18,20 +18,20 @@ const currentBook = computed<BooksItem>(() => {
 
 <template lang="pug">
 	div.book-page.container
-	div.book-page__back(@click="router.back()")
-		| Back to all Books
-	h4.book-page__title
-		| {{ currentBook.title }}
-	img.book-page__img(:src="`https://picsum.photos/seed/${currentBook.isbn}/480/640`" alt="Preview")
-	div.book-page__info
-		div.book-page__info-author
-			| {{ currentBook.author }}
-		div.book-page__info-genre
-			| {{ currentBook.genre }}
-		div.book-page__info-date
-			| {{ formattedDate(currentBook.published, { day: '2-digit', month: '2-digit' }).replace('/', '.') }}
-	div.book-page__description
-		| {{ currentBook.description }}
+		div.book-page__back(@click="router.back()")
+			| Back to all Books
+		h4.book-page__title
+			| {{ currentBook.title }}
+		img.book-page__img(:src="`https://picsum.photos/seed/${currentBook.isbn}/480/640`" alt="Preview")
+		div.book-page__info
+			div.book-page__info-author
+				| {{ currentBook.author }}
+			div.book-page__info-genre
+				| {{ currentBook.genre }}
+			div.book-page__info-date
+				| {{ formattedDate(currentBook.published, { day: '2-digit', month: '2-digit' }).replace('/', '.') }}
+		div.book-page__description
+			| {{ currentBook.description }}
 </template>
 
 <style scoped lang="scss">
