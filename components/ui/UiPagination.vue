@@ -46,6 +46,7 @@ const pageNums = computed(() => {
 	ul.list.ui-pagination
 		li.ui-pagination__item(v-for="(pageNum, i) in pageNums" :key="i")
 			button.ui-pagination__btn(
+				class=['btn']
 				v-if="Number.isInteger(pageNum)"
 				:class="{ 'ui-pagination__btn--active': pageNum === page }"
 				:disabled="isDisabled"
@@ -71,23 +72,6 @@ const pageNums = computed(() => {
 
 	&__item {
 		list-style-type: none;
-	}
-
-	&__btn {
-		display: inline-block;
-		background-color: $black;
-		border-color: transparent;
-		border-radius: 8px;
-		color: $white;
-		padding: 10px;
-		min-width: scaleSize($scale, 36);
-		@include breakpoint(pad down) {
-			min-width: scaleSize($mobileScale, 36);
-		}
-
-		&--active {
-			border-color: $white !important;
-		}
 	}
 }
 </style>
