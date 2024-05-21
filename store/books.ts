@@ -9,6 +9,7 @@ export const useBooksStore = defineStore('booksStore', () => {
     const requestParams = ref<BooksApi.RequestDTO>({
         _quantity: 20,
         _locale: 'en_US',
+        _seed: null
     })
 
     const computedRequestsParams = computed<BooksApi.RequestDTO>(() => {
@@ -28,29 +29,51 @@ export const useBooksStore = defineStore('booksStore', () => {
         const data = ref<BooksItem[]>([])
         const perPage = ref(9)
         const total = ref(0)
-
+        const shownPages = ref<BooksItem[]>([])
+        const showLikedBooks = ref(false)
         const response = await fetchRequestsBooks(computedRequestsParams.value)
-        total.value = response.total
-        data.value = response.data.slice(0, perPage.value)
+
+        data.value = response.data
+        total.value = data.value.length
+
+        const updateBooksList = (start: number, end: number) => {
+            shownPages.value = data.value
+            if (showLikedBooks.value) {
+                shownPages.value = shownPages.value.filter(book => book.isLiked)
+            } else {
+                shownPages.value = shownPages.value.slice(start, end)
+                while (shownPages.value.length < perPage.value && end < response.data.length) {
+                    end++
+                }
+            }
+
+        }
 
         const pagination = useOffsetPaginationWithUtilities({
-            pageSize: 9,
-            total: total.value,
+            pageSize: perPage.value,
+            total: computed(() => total.value),
             onPageChange: async (options) => {
                 const start = (options.currentPage - 1) * options.currentPageSize
                 const end = start + options.currentPageSize
-                data.value = response.data.slice(start, end)
+                updateBooksList(start, end)
             }
         })
 
+        updateBooksList(0, perPage.value)
+
         return {
             pagination,
-            data
+            data,
+            total,
+            shownPages,
+            updateBooksList,
+            showLikedBooks
         }
     }
 
     const { data: booksViewedState, refresh: booksRefresh } = useLazyAsyncData(
         'books-list', setupRequestsListState, { watch: [computedRequestsParams.value], server: false })
+
 
     return {
         booksViewedState,

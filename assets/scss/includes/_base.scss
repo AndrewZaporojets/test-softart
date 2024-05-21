@@ -90,3 +90,21 @@ h5, .h5 {
   }
 }
 
+.btn {
+  cursor: pointer;
+  display: inline-block;
+  background-color: $black;
+  border-color: transparent;
+  border-radius: 8px;
+  color: $white;
+  padding: 10px;
+  min-width: scaleSize($scale, 36);
+  @include breakpoint(pad down) {
+    min-width: scaleSize($mobileScale, 36);
+  }
+
+  &--active {
+    border-color: $white !important;
+  }
+}
+

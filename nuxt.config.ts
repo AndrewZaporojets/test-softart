@@ -1,4 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import path from "path"
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+
 export default defineNuxtConfig({
     app: {
         head: {
@@ -26,6 +29,22 @@ export default defineNuxtConfig({
                 }
             }
         },
+        plugins: [
+            createSvgIconsPlugin({
+                iconDirs: [
+                    path.resolve(process.cwd(), 'assets/icon')
+                ],
+                // Specify symbolId format
+                symbolId: 'icon-[dir]-[name]',
+
+                /**
+                 * custom dom snippets
+                 * @default: __svg__icons__dom__
+                 */
+
+                customDomId: '__svg__icons__dom__'
+            })
+        ],
         optimizeDeps: {
             exclude: ['lodash-es']
         }

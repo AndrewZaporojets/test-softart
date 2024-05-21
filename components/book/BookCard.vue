@@ -8,6 +8,13 @@ const props = withDefaults(defineProps<{
 	book: () => ({} as BooksItem)
 })
 
+const emit = defineEmits(['toggle-like', 'delete-card'])
+
+const isLiked = ref(props.book.isLiked)
+const toggleLike = () => {
+	isLiked.value = !isLiked.value
+	emit('toggle-like', { ...props.book, isLiked: isLiked.value })
+}
 // К сожалению с данного апи возвращает битые картинки, в связи с чем внизу небольшой костыль
 </script>
 
@@ -15,6 +22,13 @@ const props = withDefaults(defineProps<{
 	div.book-card
 		nuxt-link.book-card__link(:to="`/books/${props.book.isbn}`")
 		img.book-card__img(:src="`https://picsum.photos/seed/${book.isbn}/480/640`" alt="Preview")
+		div.book-card__actions
+			ui-svg.book-card__actions-item(
+				:name="isLiked ? 'like-active' : 'like'"
+				size="medium"
+				@click="toggleLike"
+				)
+			ui-svg.book-card__actions-item(name="close" size="medium" @click="emit('delete-card', book)")
 		div.book-card__date
 			| {{ formattedDate(props.book.published, { day: '2-digit', month: '2-digit' }).replace('/', '.') }}
 		h5.book-card__title
@@ -57,6 +71,34 @@ const props = withDefaults(defineProps<{
 		height: 100%;
 		object-fit: cover;
 		filter: brightness(.68)
+	}
+
+	&__actions {
+		display: flex;
+		align-items: center;
+		gap: scaleSize($scale, 8);
+		position: absolute;
+		z-index: 20;
+		top: scaleSize($scale, 30);
+		right: scaleSize($scale, 30);
+
+		@include adaptive($mobile) {
+			gap: scaleSize($mobileScale, 8);
+			top: scaleSize($mobileScale, 30);
+			right: scaleSize($mobileScale, 30);
+		}
+
+		&-item {
+			cursor: pointer;
+			user-select: none;
+			width: scaleSize($scale, 20);
+			height: scaleSize($scale, 20);
+
+			@include adaptive($mobile) {
+				width: scaleSize($mobileScale, 20);
+				height: scaleSize($mobileScale, 20);
+			}
+		}
 	}
 
 	&__title {
